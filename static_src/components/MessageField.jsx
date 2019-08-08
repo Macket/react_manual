@@ -10,8 +10,9 @@ export default class MessageField extends React.Component {
         input: '',
     };
 
-    componentDidUpdate() {
-        if (this.state.messages[this.state.messages.length - 1].sender === 'me') {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.messages.length < this.state.messages.length &&
+            this.state.messages[this.state.messages.length - 1].sender === 'me') {
             setTimeout(() =>
                     this.setState({
                         messages: [ ...this.state.messages, {text: 'Не приставай ко мне, я робот!', sender: 'bot'} ] }),
@@ -44,10 +45,10 @@ export default class MessageField extends React.Component {
         const messageElements = this.state.messages.map((message, index) => (
             <Message key={ index } text={ message.text } sender={ message.sender } />));
 
-        return <div className="layout">
+        return [
             <div className="message-field">
                 { messageElements }
-            </div>
+            </div>,
             <div style={ { width: '100%', display: 'flex' } }>
                 <TextField
                     name="input"
@@ -62,6 +63,6 @@ export default class MessageField extends React.Component {
                     <SendIcon />
                 </FloatingActionButton>
             </div>
-        </div>
+        ]
     }
 }
