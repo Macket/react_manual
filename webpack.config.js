@@ -2,7 +2,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        app: './index.js',
+        app: './index.jsx',
     },
     context: `${__dirname}/static_src`,
     output: {
@@ -41,4 +41,13 @@ module.exports = {
         modules: [`${__dirname}/static_src`, 'node_modules'],
         extensions: ['.js', '.jsx'],
     },
+
+    devServer: {
+        port: 8080,
+        historyApiFallback: {
+            index: 'index.html'
+        }
+    },
+
+    devtool: 'cheap-inline-module-source-map',
 };
