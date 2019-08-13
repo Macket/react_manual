@@ -1,8 +1,8 @@
 import React from 'react';
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from "redux";
 import connect from "react-redux/es/connect/connect";
 import PropTypes from "prop-types";
-import { Link } from 'react-router-dom'
+import { push } from 'connected-react-router'
 import { List, ListItem } from 'material-ui/List';
 import { TextField } from 'material-ui';
 import AddIcon from 'material-ui/svg-icons/content/add';
@@ -14,6 +14,7 @@ class ChatList extends React.Component {
     static propTypes = {
         chats: PropTypes.object.isRequired,
         addChat: PropTypes.func.isRequired,
+        push: PropTypes.func.isRequired,
     };
 
     state = {
@@ -37,15 +38,19 @@ class ChatList extends React.Component {
         }
     };
 
+    handleNavigate = (link) => {
+        this.props.push(link);
+    };
+
     render() {
         const { chats } = this.props;
         const chatElements = Object.keys(chats).map(chatId => (
-            <Link key={ chatId } to={ `/chat/${chatId}` }>
                 <ListItem
+                    key={ chatId }
                     primaryText={ chats[chatId].title }
                     leftIcon={ <ContentSend /> }
-                />
-            </Link>));
+                    onClick={ () => this.handleNavigate(`/chat/${chatId}`) }
+                />));
 
         return (
             <List>
@@ -74,6 +79,6 @@ const mapStateToProps = ({ chatReducer }) => ({
     chats: chatReducer.chats,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addChat }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addChat, push }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatList);
