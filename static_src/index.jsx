@@ -3,21 +3,21 @@ import ReactDOM from 'react-dom';
 import Router from './containers/Router'
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { PersistGate } from 'redux-persist/integration/react';
+// import { PersistGate } from 'redux-persist/integration/react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import initStore, { history } from './utils/store';
 
-const { store, persistor } = initStore();
+const store = initStore();
 
 ReactDOM.render(
     <Provider store={ store }>
-        <PersistGate loading={ null } persistor={ persistor }>
+        {/*<PersistGate loading={ null } persistor={ persistor }>*/}
             <ConnectedRouter history={history}>
                 <MuiThemeProvider>
                     <Router />
                 </MuiThemeProvider>
             </ConnectedRouter>
-        </PersistGate>
+        {/*</PersistGate>*/}
     </Provider>,
     document.getElementById('root'),
 );

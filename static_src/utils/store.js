@@ -7,12 +7,12 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import initReducers from './../reducers';
 import middlewares from '../middlewares';
 
-const persistConfig = {
-    key: 'GeekMessanger',
-    storage,
-    stateReconciler: autoMergeLevel2,
-    whitelist: ['messageReducer', 'chatReducer'],
-};
+// const persistConfig = {
+//     key: 'GeekMessanger',
+//     storage,
+//     stateReconciler: autoMergeLevel2,
+//     whitelist: ['messageReducer', 'chatReducer'],
+// };
 
 export const history = createBrowserHistory();
 
@@ -20,7 +20,8 @@ function initStore() {
     const innitialStore = {};
 
     const store = createStore(
-        persistReducer(persistConfig, initReducers(history)),
+        initReducers(history),
+        // persistReducer(persistConfig, initReducers(history)),
         innitialStore,
         compose(
             applyMiddleware(routerMiddleware(history), ...middlewares),
@@ -28,9 +29,9 @@ function initStore() {
         ),
     );
 
-    const persistor = persistStore(store);
+    // const persistor = persistStore(store);
 
-    return { store, persistor };
+    return store;
 }
 
 export default initStore;
